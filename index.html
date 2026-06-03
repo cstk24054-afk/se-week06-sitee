@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
     <style>
-        /* Base Styles */
+        /* デザインシステム（色の定義） */
         :root {
-            --bg-color: #e0f7fa;
             --text-color: #333333;
-            --card-bg: #ffffff;
-            --primary-color: #00838f;
-            --accent-color: #00acc1;
-            --border-color: #b2ebf2;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --primary-color: #006064;
+            --accent-color: #00b8d4;
+            --border-color: rgba(255, 255, 255, 0.4);
+            /* グラスモーフィズム用の白い半透明背景 */
+            --card-bg: rgba(255, 255, 255, 0.85); 
+            --shadow: 0 8px 32px 0 rgba(0, 96, 100, 0.15);
         }
 
         * {
@@ -23,7 +23,12 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            /* カッコいい流れるグラデーション背景の設定 */
+            background: linear-gradient(-45deg, #e0f7fa, #b2ebf2, #4dd0e1, #00acc1);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+            background-attachment: fixed;
+            
             color: var(--text-color);
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
             line-height: 1.8;
@@ -34,36 +39,60 @@
             min-height: 100vh;
         }
 
-        /* Container */
-        .container {
-            background-color: var(--card-bg);
-            max-width: 700px;
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 40px;
-            margin: 20px 0;
+        /* 背景がゆっくり動くアニメーション */
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Navigation Tab */
+        /* メインコンテナ（すりガラス風のデザイン） */
+        .container {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); /* Safari対策 */
+            border: 1px solid var(--border-color);
+            max-width: 700px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin: auto 0; /* 上下中央配置 */
+        }
+
+        /* タイトル */
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* タブナビゲーション */
         nav {
             display: flex;
             justify-content: space-around;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid rgba(0, 172, 193, 0.2);
             margin-bottom: 30px;
         }
 
         .tab-btn {
             background: none;
             border: none;
-            color: #666;
+            color: #555555;
             font-size: 1rem;
             font-weight: bold;
-            padding: 10px 15px;
+            padding: 12px 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             bottom: -2px;
+        }
+
+        /* ホバー時とアクティブ時のエフェクト */
+        .tab-btn:hover {
+            color: var(--accent-color);
         }
 
         .tab-btn.active {
@@ -71,89 +100,89 @@
             border-bottom: 2px solid var(--primary-color);
         }
 
-        /* Content Sections */
+        /* コンテンツセクション */
         .content-section {
             display: none;
         }
 
         .content-section.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeInUp 0.5s ease forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+        /* タブ切り替え時のふわっとしたアニメーション */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
         }
 
         h2 {
             color: var(--primary-color);
             font-size: 1.4rem;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             border-left: 4px solid var(--accent-color);
-            padding-left: 10px;
+            padding-left: 12px;
         }
 
         p {
             margin-bottom: 15px;
             font-size: 1rem;
-            word-wrap: break-word;
+            color: #444444;
         }
 
-        /* List Styles */
+        /* リストスタイル */
         ul {
             list-style-type: none;
             margin-bottom: 20px;
         }
 
         li {
-            margin-bottom: 10px;
-            padding-left: 15px;
+            margin-bottom: 12px;
+            padding-left: 20px;
             position: relative;
         }
 
         li::before {
-            content: "•";
+            content: "◆";
             color: var(--accent-color);
-            font-weight: bold;
+            font-size: 0.8rem;
             position: absolute;
             left: 0;
+            top: 2px;
         }
 
-        /* Box Styles for Works/Reflection */
+        /* ボックス（Works / Reflection 用） */
         .box {
-            background-color: #f5fbfd;
-            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 172, 193, 0.15);
             border-radius: 8px;
             padding: 20px;
             margin-top: 15px;
         }
 
-        /* Responsive Design */
+        .box h3 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        /* スマートフォン向けの調整 */
         @media (max-width: 600px) {
             body {
-                padding: 10px;
+                padding: 15px;
             }
             .container {
-                padding: 20px;
-                margin: 10px 0;
+                padding: 25px 20px;
             }
             nav {
                 flex-wrap: wrap;
             }
             .tab-btn {
-                font-size: 0.9rem;
-                padding: 8px 10px;
+                font-size: 0.95rem;
+                padding: 10px 8px;
             }
             h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
         }
     </style>
@@ -189,7 +218,7 @@
                 <h2>授業での成果物</h2>
                 <div class="box">
                     <h3>GitHubによるWebサイト制作</h3>
-                    <p style="margin-top: 5px; font-size: 0.95rem; color: #555;">
+                    <p style="font-size: 0.95rem; color: #555; margin-top: 5px;">
                         大学の授業課題の一環として、GitHub Pagesを利用した静的なWebサイトを構築・一般公開しました。
                     </p>
                     <p style="font-size: 0.95rem; color: #555;">
@@ -223,7 +252,7 @@
                 button.setAttribute('aria-selected', 'false');
             });
 
-            // 指定されたセクションとボタンをアクティブにする
+            // 指定されたセクションをアクティブにする
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
