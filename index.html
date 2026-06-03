@@ -3,71 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>私の最初のホームページ</title>
+    <title>My Portfolio</title>
     <style>
-        /* 全体の背景色と文字色の設定 */
-        body {
-            background-color: #e0f7fa;
-            color: #333333;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-            line-height: 1.6;
+        /* Base Styles */
+        :root {
+            --bg-color: #e0f7fa;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --primary-color: #00838f;
+            --accent-color: #00acc1;
+            --border-color: #b2ebf2;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+            line-height: 1.8;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* プロフィールカードのコンテナ */
-        .profile-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 90%;
+        /* Container */
+        .container {
+            background-color: var(--card-bg);
+            max-width: 700px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin: 20px 0;
         }
 
-        /* 見出しのスタイリング */
+        /* Navigation Tab */
+        nav {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         h1 {
-            color: #00838f;
-            border-bottom: 2px solid #00acc1;
-            padding-bottom: 10px;
-            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        /* リストのスタイリング */
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            word-wrap: break-word;
+        }
+
+        /* List Styles */
         ul {
             list-style-type: none;
-            padding: 0;
+            margin-bottom: 20px;
         }
 
         li {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
         }
 
-        /* ラベル（項目名）の強調 */
-        .label {
+        li::before {
+            content: "•";
+            color: var(--accent-color);
             font-weight: bold;
-            color: #006064;
-            display: inline-block;
-            width: 100px;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Box Styles for Works/Reflection */
+        .box {
+            background-color: #f5fbfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px 0;
+            }
+            nav {
+                flex-wrap: wrap;
+            }
+            .tab-btn {
+                font-size: 0.9rem;
+                padding: 8px 10px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-container">
-        <h1>ようこそ!</h1>
-        
-        <ul>
-            <li><span class="label">名前:</span> 佐藤孝哉</li>
-            <li><span class="label">学部学科:</span> 理工学部 応用情報工学科</li>
-            <li><span class="label">趣味:</span> FPSゲーム、剣道</li>
-        </ul>
+    <div class="container">
+        <h1>My Portfolio</h1>
+
+        <nav role="tablist">
+            <button class="tab-btn active" onclick="switchTab('about')" role="tab" aria-selected="true">About</button>
+            <button class="tab-btn" onclick="switchTab('skills')" role="tab" aria-selected="false">Skills</button>
+            <button class="tab-btn" onclick="switchTab('works')" role="tab" aria-selected="false">Works</button>
+            <button class="tab-btn" onclick="switchTab('reflection')" role="tab" aria-selected="false">Reflection</button>
+        </nav>
+
+        <main>
+            <section id="about" class="content-section active" role="tabpanel">
+                <h2>About Me</h2>
+                <p>はじめまして。大学の理工学部で応用情報工学を専攻している学生です。現在は、学内での講義や演習を通じて、コンピュータサイエンスの基礎から実践的なアプリケーション開発までを幅広く学んでいます。</p>
+                <p>このページでは、これまでに触れてきた技術や、授業を通じて作成した成果物について紹介しています。</p>
+            </section>
+
+            <section id="skills" class="content-section" role="tabpanel">
+                <h2>関心分野・学んでいること</h2>
+                <ul>
+                    <li><strong>情報工学全般:</strong> ネットワーク、アルゴリズム、データベースの基礎など、ITの基盤となる知識の習得に取り組んでいます。</li>
+                    <li><strong>プログラミング言語:</strong> HTML/CSSをはじめ、Webフロントエンドやプログラミングの基礎文法を学習中です。</li>
+                </ul>
+            </section>
+
+            <section id="works" class="content-section" role="tabpanel">
+                <h2>授業での成果物</h2>
+                <div class="box">
+                    <h3>GitHubによるWebサイト制作</h3>
+                    <p style="margin-top: 5px; font-size: 0.95rem; color: #555;">
+                        大学の授業課題の一環として、GitHub Pagesを利用した静的なWebサイトを構築・一般公開しました。
+                    </p>
+                    <p style="font-size: 0.95rem; color: #555;">
+                        外部のライブラリに頼らず、HTMLとCSSの基本タグのみを用いて構造化とスタイリングを行うことで、Web標準の仕組みとソースコード管理の基本を実践的に学びました。
+                    </p>
+                </div>
+            </section>
+
+            <section id="reflection" class="content-section" role="tabpanel">
+                <h2>振り返りと今後の展望</h2>
+                <div class="box">
+                    <p>初めて自分で記述したHTML/CSSが、ブラウザ上で意図した通りのデザインとして表示された瞬間に大きな達成感を覚えました。</p>
+                    <p style="margin-bottom: 0;">現在はまだ静的なページ構成が中心ですが、今後はJavaScriptを活用した動的な機能の実装や、バックエンド技術との連携にも視野を広げ、より実用的なWebシステム開発に挑戦していきたいと考えています。</p>
+                </div>
+            </section>
+        </main>
     </div>
 
+    <script>
+        function switchTab(sectionId) {
+            // すべてのセクションを非表示にする
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // すべてのタブボタンのアクティブ状態を解除する
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 指定されたセクションとボタンをアクティブにする
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // クリックされたボタンを探してアクティブ状態にする
+            const clickedButton = Array.from(buttons).find(btn => 
+                btn.getAttribute('onclick').includes(sectionId)
+            );
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+                clickedButton.setAttribute('aria-selected', 'true');
+            }
+        }
+    </script>
 </body>
 </html>
