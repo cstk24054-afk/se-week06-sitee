@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
     <style>
-        /* デザインシステム（色の定義） */
+        /* デザインシステム */
         :root {
-            --text-color: #333333;
-            --primary-color: #006064;
-            --accent-color: #00b8d4;
-            --border-color: rgba(255, 255, 255, 0.4);
-            /* グラスモーフィズム用の白い半透明背景 */
-            --card-bg: rgba(255, 255, 255, 0.85); 
-            --shadow: 0 8px 32px 0 rgba(0, 96, 100, 0.15);
+            --text-color: #ffffff; /* フルスクリーンで映える白文字 */
+            --text-sub: #e0f7fa;   /* 薄いシアンのサブテキスト */
+            --primary-color: #ffffff;
+            --accent-color: #80deea;
+            /* 画面全体を覆う、景色を殺さない程度の暗め・深みのあるグラデーション */
+            --screen-overlay: linear-gradient(to bottom, rgba(10, 40, 45, 0.45) 0%, rgba(10, 50, 55, 0.7) 60%, rgba(5, 25, 30, 0.85) 100%);
         }
 
         * {
@@ -23,242 +22,268 @@
         }
 
         body {
-            /* カッコいい流れるグラデーション背景の設定 */
-            background: linear-gradient(-45deg, #e0f7fa, #b2ebf2, #4dd0e1, #00acc1);
-            background-size: 400% 400%;
-            animation: aurora 15s ease infinite;
-            background-attachment: fixed;
-            
             color: var(--text-color);
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
             line-height: 1.8;
-            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+
+            /* --- CSSで描く大自然の景色 --- */
+            background: 
+                linear-gradient(180deg, transparent 70%, rgba(178, 235, 242, 0.3) 90%, rgba(224, 247, 250, 0.5) 100%),
+                radial-gradient(circle at 10% 75%, #4caf50 0%, #1b5e20 50%, transparent 75%),
+                radial-gradient(circle at 90% 80%, #81c784 0%, #2e7d32 55%, transparent 80%),
+                radial-gradient(circle at 50% 85%, #a5d6a7 0%, #1b5e20 60%, transparent 95%),
+                radial-gradient(circle at 30% 60%, #80deea 0%, #006064 60%, transparent 80%),
+                radial-gradient(circle at 70% 65%, #b2ebf2 0%, #00838f 60%, transparent 80%),
+                radial-gradient(circle at 50% 30%, #fff9c4 0%, #ffecb3 15%, #e0f7fa 50%, #b2ebf2 100%);
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* 景色のうえに重ねる画面全体のレイヤー（これで文字の視認性を確保） */
+        .fullscreen-overlay {
+            background: var(--screen-overlay);
+            backdrop-filter: blur(4px); /* 景色をほんのりぼかして奥行きを出す */
+            -webkit-backdrop-filter: blur(4px);
+            min-height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            padding: 60px 24px;
         }
 
-        /* 背景がゆっくり動くアニメーション */
-        @keyframes aurora {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* メインコンテナ（すりガラス風のデザイン） */
-        .container {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px); /* Safari対策 */
-            border: 1px solid var(--border-color);
-            max-width: 700px;
+        /* 画面全体をダイナミックに使うラッパー */
+        .main-wrapper {
+            max-width: 800px;
             width: 100%;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 40px;
-            margin: auto 0; /* 上下中央配置 */
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
-        /* タイトル */
+        /* メインタイトル */
         h1 {
             color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 25px;
+            font-size: 2.6rem;
+            margin-bottom: 35px;
             text-align: center;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        /* タブナビゲーション */
+        /* 全体画面に合わせたタブナビゲーション */
         nav {
             display: flex;
             justify-content: space-around;
-            border-bottom: 2px solid rgba(0, 172, 193, 0.2);
-            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
         }
 
         .tab-btn {
             background: none;
             border: none;
-            color: #555555;
-            font-size: 1rem;
+            color: var(--text-sub);
+            font-size: 1.1rem;
             font-weight: bold;
-            padding: 12px 15px;
+            padding: 15px 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            bottom: -2px;
+            bottom: -1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        /* ホバー時とアクティブ時のエフェクト */
         .tab-btn:hover {
-            color: var(--accent-color);
+            color: #ffffff;
+            text-shadow: 0 0 8px var(--accent-color);
         }
 
         .tab-btn.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+            color: #ffffff;
+            border-bottom: 3px solid var(--accent-color);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
         /* コンテンツセクション */
         .content-section {
             display: none;
+            width: 100%;
         }
 
         .content-section.active {
             display: block;
-            animation: fadeInUp 0.5s ease forwards;
+            animation: fadeInFull 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* タブ切り替え時のふわっとしたアニメーション */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* 没入感のあるフェードインアニメーション */
+        @keyframes fadeInFull {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         h2 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
-            margin-bottom: 18px;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 12px;
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
         p {
-            margin-bottom: 15px;
-            font-size: 1rem;
-            color: #444444;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--text-sub);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }
 
         /* リストスタイル */
         ul {
             list-style-type: none;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         li {
-            margin-bottom: 12px;
-            padding-left: 20px;
+            margin-bottom: 18px;
+            padding-left: 28px;
             position: relative;
+            font-size: 1.1rem;
+            color: var(--text-sub);
+        }
+
+        li strong {
+            color: #ffffff;
         }
 
         li::before {
-            content: "◆";
+            content: "■";
             color: var(--accent-color);
             font-size: 0.8rem;
             position: absolute;
-            left: 0;
+            left: 5px;
             top: 2px;
+            /* 少し光らせる */
+            box-shadow: 0 0 8px var(--accent-color); 
         }
 
-        /* ボックス（Works / Reflection 用） */
+        /* フルスクリーンに溶け込むワイドボックス */
         .box {
-            background-color: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(0, 172, 193, 0.15);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .box h3 {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
         }
 
-        /* スマートフォン向けの調整 */
+        /* スマートフォン向けのレスポンシブ調整 */
         @media (max-width: 600px) {
-            body {
-                padding: 15px;
-            }
-            .container {
-                padding: 25px 20px;
+            .fullscreen-overlay {
+                padding: 40px 16px;
             }
             nav {
-                flex-wrap: wrap;
+                margin-bottom: 30px;
             }
             .tab-btn {
                 font-size: 0.95rem;
-                padding: 10px 8px;
+                padding: 10px 6px;
             }
             h1 {
-                font-size: 1.6rem;
+                font-size: 2rem;
+                margin-bottom: 25px;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .box {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>My Portfolio</h1>
+    <div class="fullscreen-overlay">
+        <div class="main-wrapper">
+            
+            <h1>My Portfolio</h1>
 
-        <nav role="tablist">
-            <button class="tab-btn active" onclick="switchTab('about')" role="tab" aria-selected="true">About</button>
-            <button class="tab-btn" onclick="switchTab('skills')" role="tab" aria-selected="false">Skills</button>
-            <button class="tab-btn" onclick="switchTab('works')" role="tab" aria-selected="false">Works</button>
-            <button class="tab-btn" onclick="switchTab('reflection')" role="tab" aria-selected="false">Reflection</button>
-        </nav>
+            <nav role="tablist">
+                <button class="tab-btn active" onclick="switchTab('about')" role="tab" aria-selected="true">About</button>
+                <button class="tab-btn" onclick="switchTab('skills')" role="tab" aria-selected="false">Skills</button>
+                <button class="tab-btn" onclick="switchTab('works')" role="tab" aria-selected="false">Works</button>
+                <button class="tab-btn" onclick="switchTab('reflection')" role="tab" aria-selected="false">Reflection</button>
+            </nav>
 
-        <main>
-            <section id="about" class="content-section active" role="tabpanel">
-                <h2>About Me</h2>
-                <p>はじめまして。大学の理工学部で応用情報工学を専攻している学生です。現在は、学内での講義や演習を通じて、コンピュータサイエンスの基礎から実践的なアプリケーション開発までを幅広く学んでいます。</p>
-                <p>このページでは、これまでに触れてきた技術や、授業を通じて作成した成果物について紹介しています。</p>
-            </section>
+            <main>
+                <section id="about" class="content-section active" role="tabpanel">
+                    <h2>About Me</h2>
+                    <p>はじめまして。大学の理工学部で応用情報工学を専攻している学生です。現在は、学内での講義や演習を通じて、コンピュータサイエンスの基礎から実践的なアプリケーション開発までを幅広く学んでいます。</p>
+                    <p>このページでは、これまでに触れてきた技術や、授業を通じて作成した成果物について紹介しています。</p>
+                </section>
 
-            <section id="skills" class="content-section" role="tabpanel">
-                <h2>関心分野・学んでいること</h2>
-                <ul>
-                    <li><strong>情報工学全般:</strong> ネットワーク、アルゴリズム、データベースの基礎など、ITの基盤となる知識の習得に取り組んでいます。</li>
-                    <li><strong>プログラミング言語:</strong> HTML/CSSをはじめ、Webフロントエンドやプログラミングの基礎文法を学習中です。</li>
-                </ul>
-            </section>
+                <section id="skills" class="content-section" role="tabpanel">
+                    <h2>関心分野・学んでいること</h2>
+                    <ul>
+                        <li><strong>情報工学全般:</strong> ネットワーク、アルゴリズム、データベースの基礎など、ITの基盤となる知識の習得に取り組んでいます。</li>
+                        <li><strong>プログラミング言語:</strong> HTML/CSSをはじめ、Webフロントエンドやプログラミングの基礎文法を学習中です。</li>
+                    </ul>
+                </section>
 
-            <section id="works" class="content-section" role="tabpanel">
-                <h2>授業での成果物</h2>
-                <div class="box">
-                    <h3>GitHubによるWebサイト制作</h3>
-                    <p style="font-size: 0.95rem; color: #555; margin-top: 5px;">
-                        大学の授業課題の一環として、GitHub Pagesを利用した静的なWebサイトを構築・一般公開しました。
-                    </p>
-                    <p style="font-size: 0.95rem; color: #555;">
-                        外部のライブラリに頼らず、HTMLとCSSの基本タグのみを用いて構造化とスタイリングを行うことで、Web標準の仕組みとソースコード管理の基本を実践的に学びました。
-                    </p>
-                </div>
-            </section>
+                <section id="works" class="content-section" role="tabpanel">
+                    <h2>授業での成果物</h2>
+                    <div class="box">
+                        <h3>GitHubによるWebサイト制作</h3>
+                        <p style="font-size: 1rem; margin-top: 5px;">
+                            大学の授業課題の一環として、GitHub Pagesを利用した静的なWebサイトを構築・一般公開しました。
+                        </p>
+                        <p style="font-size: 1rem; opacity: 0.9;">
+                            外部のライブラリに頼らず、HTMLとCSSの基本タグのみを用いて構造化とスタイリングを行うことで、Web標準の仕組みとソースコード管理の基本を実践的に学びました。
+                        </p>
+                    </div>
+                </section>
 
-            <section id="reflection" class="content-section" role="tabpanel">
-                <h2>振り返りと今後の展望</h2>
-                <div class="box">
-                    <p>初めて自分で記述したHTML/CSSが、ブラウザ上で意図した通りのデザインとして表示された瞬間に大きな達成感を覚えました。</p>
-                    <p style="margin-bottom: 0;">現在はまだ静的なページ構成が中心ですが、今後はJavaScriptを活用した動的な機能の実装や、バックエンド技術との連携にも視野を広げ、より実用的なWebシステム開発に挑戦していきたいと考えています。</p>
-                </div>
-            </section>
-        </main>
+                <section id="reflection" class="content-section" role="tabpanel">
+                    <h2>振り返りと今後の展望</h2>
+                    <div class="box">
+                        <p>初めて自分で記述したHTML/CSSが、ブラウザ上で意図した通りのデザインとして表示された瞬間に大きな達成感を覚えました。</p>
+                        <p style="margin-bottom: 0; opacity: 0.9;">現在はまだ静的なページ構成が中心ですが、今後はJavaScriptを活用した動的な機能の実装や、バックエンド技術との連携にも視野を広げ、より実用的なWebシステム開発に挑戦していきたいと考えています。</p>
+                    </div>
+                </section>
+            </main>
+
+        </div>
     </div>
 
     <script>
         function switchTab(sectionId) {
-            // すべてのセクションを非表示にする
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // すべてのタブボタンのアクティブ状態を解除する
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(button => {
                 button.classList.remove('active');
                 button.setAttribute('aria-selected', 'false');
             });
 
-            // 指定されたセクションをアクティブにする
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
 
-            // クリックされたボタンを探してアクティブ状態にする
             const clickedButton = Array.from(buttons).find(btn => 
                 btn.getAttribute('onclick').includes(sectionId)
             );
